@@ -10,7 +10,7 @@ function validate(schemas){
             if(!schemas[part]) continue
             const result =schemas[part].safeParse(req[part])
 
-            if(!result.sucess){
+            if(!result.success){
                 const details=result.error.issues.map((issue)=>({
                     path:issue.path.join('.') || part,
                     message: issue.message

@@ -1,5 +1,5 @@
-const dotenv=require("dotenv").config()
-const {z, object} =require("zod")
+require("dotenv").config()
+const {z} =require("zod")
 
 
 const schema=z.object({
@@ -8,7 +8,7 @@ const schema=z.object({
     DATABASE_URL:z.url(),
     TEST_DATABASE_URL:z.url(),
     JWT_SECRET:z.string().min(32),
-    CLIENT_ORIGIN:z.httpUrl(),
+    CLIENT_ORIGIN:z.url({protocol:/^https?$/}),
     LOG_LEVEL:z.enum(['fatal','error','warn','info','debug','trace','silent']).default("info")
 })
 
@@ -22,13 +22,12 @@ if(!parsed.success){
 }
 
 const data=parsed.data
-console.log(env)
 const env=Object.freeze(
     {
         ...data,
         databaseUrl:data.NODE_ENV==="test"?data.TEST_DATABASE_URL:data.DATABASE_URL,
         isProd:data.NODE_ENV==="production",
-        isTest:data.NODE_ENV="test"
+        isTest:data.NODE_ENV==="test"
     }
 )
 

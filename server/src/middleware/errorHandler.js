@@ -1,4 +1,4 @@
-const {AppError}= requires('../lib/errors.js')
+const {AppError}= require('../lib/errors.js')
 
 
 function errorHandler(err,req,res,next){
