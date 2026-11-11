@@ -52,7 +52,7 @@ async function findByIdWithoutPassword(id) {
 async function update(id,{name,passwordHash}) {
     const {rows}=await pool.query(
         `UPDATE users SET
-        name=COALESCE($2,name)
+        name=COALESCE($2,name),
         password_hash=COALESCE($3,password_hash)
         WHERE ID=$1
         RETURNING ${PUBLIC}`,

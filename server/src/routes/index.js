@@ -1,5 +1,5 @@
 const {Router} =require('express')
-
+const {create,findByEmail,findById,findByIdWithoutPassword,update}=require('../repositories/users.repo.js')
 const {pool} =require('../config/db')
 
 const router=Router()
