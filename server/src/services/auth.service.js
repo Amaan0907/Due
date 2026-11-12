@@ -9,16 +9,16 @@ const COST=10
 
 const DUMMY_HASH=bcrypt.hashSync('not-a-real-password',COST)
 
-const invalidCredentials=()=>{
+const invalidCredentials=()=>(
     new AppError(401,'INVALID CREDENTIALS','Invalid email or password')
-}
+)
 
 function signToken(userId){
     return jwt.sign({sub:String(userId)},env.JWT_SECRET,{algorithm:'HS256',expiresIn:'7d'})
 }
 
 async function register({name,email,password}) {
-    const passwordHash=bcrypt.hash(password,COST)
+    const passwordHash=await bcrypt.hash(password,COST)
     try {
 
         const user=await users.create({name,email,passwordHash})
@@ -30,10 +30,9 @@ async function register({name,email,password}) {
     }
 }
 
-async function login(email,password) {
+async function login({email,password}) {
     const found=await users.findByEmail(email)
-    const ok=bcrypt.compare(password,found?found.passwordHash:DUMMY_HASH)
-
+    const ok=await bcrypt.compare(password,found?found.passwordHash:DUMMY_HASH)
     if(!found ||!ok){
         throw invalidCredentials()
     }
@@ -48,13 +47,13 @@ async function updateProfile(id,name,currentPassword,newPassword){
     if (!found){
         throw invalidCredentials()
     }
-    const ok=bcrypt.compare(currentPassword,found.passwordHash)
+    const ok=await bcrypt.compare(currentPassword,found.passwordHash)
     if(!ok){
         throw invalidCredentials()
     }
 
     if (newPassword){
-        newPasswordHash=bcrypt.hash(newPassword,COST)
+        newPasswordHash=await bcrypt.hash(newPassword,COST)
     }
     const user=await users.update(id,{name,newPasswordHash})
 

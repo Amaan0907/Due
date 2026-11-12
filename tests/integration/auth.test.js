@@ -41,3 +41,23 @@ describe('POST /api/auth/register',()=>{
         expect(res.body.error.code).toBe('VALIDATION_ERROR')
     })
 })
+
+
+describe('POST /api/auth/login',()=>{
+    beforeEach(()=> request(app).post('/api/auth/register').send(user))
+
+    test('200 with right credentials',async()=>{
+        const res=await request(app).post('/api/auth/login').send({email:user.email,password:user.password})
+        expect( res.status).toBe(200)
+        expect(res.headers['set-cookie']).toBeDefined()
+    })
+
+    test('401 with the same body for a wrong password and an unknown email',async()=>{
+        const wrong=await request(app).post('/api/auth/login').send({email:user.email,password:"password@123"})
+        const unknown=await request(app).post('/api/auth/login').send({email:"Amaan@test.com",password:"Amaan@123"})
+        expect(wrong.status).toBe(401)
+        expect(unknown.status).toBe(401)
+        expect(wrong.body.error.code).toBe('INVALID CREDENTIALS')
+        expect(unknown.body).toEqual(wrong.body)
+    })
+})
