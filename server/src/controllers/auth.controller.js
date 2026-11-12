@@ -3,7 +3,7 @@ const authService =require('../services/auth.service.js')
 
 
 const COOKIE={
-    httpOnlye:true,
+    httpOnly:true,
     secure:env.isProd,
     sameSite:env.isProd?"none":"lax",
     path:"/"
