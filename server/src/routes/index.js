@@ -12,6 +12,7 @@ router.get('/health',async (req,res)=>{
         res.status(503).json({status:'error',db:'unreachable'})
     }
 })
+router.use('/auth',require('./auth.routes.js'))
 
 
 module.exports=router
