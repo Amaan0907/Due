@@ -22,7 +22,7 @@ async function add(groupId,userId,role,db=pool) {
         [groupId,userId,role]
 
     )
-    return rows?toMember(rows[0]):null
+    return rows[0]?toMember(rows[0]):null
 }
 
 async function find(groupId,userId,db=pool) {
@@ -30,7 +30,7 @@ async function find(groupId,userId,db=pool) {
         `${MEMBER_SELECT} WHERE gm.group_id=$1 AND u.user_id=$2`
         [groupId,userId]
     )
-    return rows ? toMember(rows[0]) : null
+    return rows[0] ? toMember(rows[0]) : null
 
 }
 
