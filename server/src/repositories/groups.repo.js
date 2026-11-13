@@ -81,7 +81,7 @@ async function update(id,{name,description},db=pool){
 }
 
 async function remove(id,db=pool) {
-    await db.queery(
+    await db.query(
         `DELETE FROM groups WHERE id=$1`
         [id]
     )
