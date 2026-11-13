@@ -1,5 +1,5 @@
 const {Router} =require('express')
-
+const {create,findByEmail,findById,findByIdWithoutPassword,update}=require('../repositories/users.repo.js')
 const {pool} =require('../config/db')
 
 const router=Router()
@@ -12,6 +12,7 @@ router.get('/health',async (req,res)=>{
         res.status(503).json({status:'error',db:'unreachable'})
     }
 })
+router.use('/auth',require('./auth.routes.js'))
 
 
 module.exports=router
