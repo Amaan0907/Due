@@ -26,7 +26,6 @@ const registerController=async(req,res)=>{
 
 const loginController=async (req,res)=>{
     const {user,token}=await authService.login(req.valid.body)
-
     setSession(res,token)
     res.json({user})
 }
@@ -41,11 +40,10 @@ const currentUserController=(req,res)=>{
 }
 
 const updateUserController=async (req,res)=>{
-    const {user,token}=await authService.updateProfile(req.params.id,req.valid.body)
-
+    const {user,token}=await authService.updateProfile(req.user.id,req.valid.body)
     setSession(res,token)
 
-    res.status(201).json({user:user})
+    res.status(201).json({user})
 }
 
 module.exports={

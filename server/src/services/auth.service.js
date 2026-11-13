@@ -41,29 +41,31 @@ async function login({email,password}) {
     return {user,token:signToken(user.id)}
 }
 
-async function updateProfile(id,name,currentPassword,newPassword){
+async function updateProfile(id,{name,currentPassword,newPassword}){
     let newPasswordHash
     const found=await users.findById(id)
     if (!found){
         throw invalidCredentials()
     }
-    const ok=await bcrypt.compare(currentPassword,found.passwordHash)
-    if(!ok){
-        throw invalidCredentials()
-    }
-
+    const patch={}
+    if(name!==undefined) patch.name=name
     if (newPassword){
+        const ok=await bcrypt.compare(currentPassword,found.passwordHash)
+        
+        if(!ok){
+            throw invalidCredentials()
+        }
         newPasswordHash=await bcrypt.hash(newPassword,COST)
+        patch.passwordHash=newPasswordHash
     }
-    const user=await users.update(id,{name,newPasswordHash})
-
+    const user=await users.update(id,patch)
     if(!user){
         throw new AppError(503,'INTERNAL SERVER ERROR','Something went wrong')
     }
 
     const {passwordHash,...updatedUser}=user
 
-    return {updatedUser,token:signToken(updatedUser.id)}
+    return {user:updatedUser,token:signToken(updatedUser.id)}
 
 }
 

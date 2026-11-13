@@ -23,7 +23,7 @@ async function requireAuth(req,res,next) {
 
     }
 
-    const user=users.findById(Number(payload.sub))
+    const user=await users.findById(Number(payload.sub))
     if(!user) throw unauthenticated()
     req.user=user
 
