@@ -15,12 +15,13 @@ res.json(await groupServices.get(req.group.id,req.user.id))
 )
 
 const update=async(req,res)=>{
-    const group=await groupServices.update(req.user.id,req.group.id,req.valid.body)
-    res.status(201).json({group})
+    const group=await groupServices.update(req.user,req.group.id,req.valid.body)
+    res.status(200).json({group})
 }
 
 const remove=async(req,res)=>{
-    res.json(await groupServices.remove(req.group.id))
+    await groupServices.remove(req.group.id)
+    res.status(204).end()
 }
 
 const addMember=async(req,res)=>{
@@ -30,7 +31,7 @@ const addMember=async(req,res)=>{
 }
 
 const removeMember=async(req,res)=>{
-    await groupServices.removeMember(req.user,req.group.id,req.membership,req.params.userId)
+    await groupServices.removeMember(req.user,req.group.id,req.membership,req.valid.params.userId)
     res.status(204).end()
 }
 

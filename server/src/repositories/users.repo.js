@@ -61,9 +61,9 @@ async function update(id,{name,passwordHash}) {
 
     return rows[0]?{...toUser(rows[0])}:null
 }
-async function findByEmail(email){
+async function findByEmailWithoutPass(email){
     const {rows}=await pool.query(
-        `SELECT ${PUBLIC} FROM users WHERE email=$1`
+        `SELECT ${PUBLIC} FROM users WHERE email=$1`,
         [email]
     )
     return rows[0]?toUser(rows[0]):null
@@ -76,5 +76,5 @@ module.exports={
     findById,
     findByIdWithoutPassword,
     update,
-    findByEmail
+    findByEmailWithoutPass
 }

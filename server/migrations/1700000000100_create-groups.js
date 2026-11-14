@@ -1,4 +1,4 @@
-const { tr } = require("zod/v4/locales")
+
 
 exports.up=(pgm)=>{
     pgm.createTable('groups',{

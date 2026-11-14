@@ -4,4 +4,4 @@ const resetDb=()=>pool.query('TRUNCATE users RESTART IDENTITY CASCADE')
 const closeDb=()=>pool.end()
 
 
-module.exports={resetDb,closeDb}
+module.exports={resetDb,closeDb,pool}

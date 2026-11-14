@@ -3,7 +3,7 @@ const groupsRepo=require('../repositories/groups.repo')
 const {badRequest, notFound, notAMember, forbidden}=require('../lib/errors.js')
 
 async function requireMember(req,res,next){
-    const groupId=req.params.id
+    const groupId=Number(req.params.id)
     if(!Number.isInteger(groupId) || groupId <1){
         throw badRequest('Invalid request')
     }

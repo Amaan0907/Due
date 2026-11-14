@@ -18,6 +18,6 @@ router.delete('/:id',requireMember,requireAdmin,controllers.remove)
 
 router.post('/:id/members',requireMember,validate({body:validators.addMemberSchema}),controllers.addMember)
 
-router.delete("/:id/members/:userId",requireMember,validate({body:validators.memberParams}),controllers.removeMember)
+router.delete("/:id/members/:userId",requireMember,validate({params:validators.memberParams}),controllers.removeMember)
 
 module.exports=router
