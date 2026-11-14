@@ -13,6 +13,7 @@ router.get('/health',async (req,res)=>{
     }
 })
 router.use('/auth',require('./auth.routes.js'))
+router.use('/groups',require('./groups.routes.js'))
 
 
 module.exports=router
