@@ -1,7 +1,7 @@
 const groupServices=require('../services/groups.service.js')
 
 const list=async(req,res)=>(
-    res.json({items:await groupServices.list(res.user.id)})
+    res.json({items:await groupServices.list(req.user.id)})
 )
 
 const create=async(req,res)=>{
