@@ -15,14 +15,13 @@ const MEMBER_SELECT=(
 
 
 async function add(groupId,userId,role,db=pool) {
-    const {rows}=await db.query(
+    await db.query(
         `INSERT INTO group_members(group_id,user_id,role)
         VALUES($1,$2,$3)
         `
         [groupId,userId,role]
 
     )
-    return rows[0]?toMember(rows[0]):null
 }
 
 async function find(groupId,userId,db=pool) {
