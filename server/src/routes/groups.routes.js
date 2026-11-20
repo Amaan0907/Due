@@ -4,6 +4,9 @@ const {requireMember,requireAdmin}=require('../middleware/requireMember.js')
 const validators=require('../validators/groups.validators.js')
 const controllers=require('../controllers/groups.controller.js')
 const validate=require('../middleware/validate.js')
+const expenseValidators = require('../validators/expenses.validators.js')
+const expenseControllers = require('../controllers/expenses.controller.js')
+
 const router=Router()
 router.use(requireAuth)
 
@@ -20,4 +23,10 @@ router.post('/:id/members',requireMember,validate({body:validators.addMemberSche
 
 router.delete("/:id/members/:userId",requireMember,validate({params:validators.memberParams}),controllers.removeMember)
 
+router.get('/:id/expenses', requireMember, validate({ query: expenseValidators.listQuerySchema }), expenseControllers.list)
+router.post('/:id/expenses', requireMember, validate({ body: expenseValidators.createExpenseSchema }), expenseControllers.create)
+
+
 module.exports=router
+
+
