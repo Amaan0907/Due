@@ -1,5 +1,3 @@
-
-
 exports.up=(pgm)=>{
     pgm.createTable('groups',{
         id:{type:'bigserial',primaryKey:true},
@@ -17,6 +15,7 @@ exports.up=(pgm)=>{
         group_id:{type:'bigint',primaryKey:true,notNull:true,references:'groups',onDelete:'CASCADE'},
         user_id:{type:'bigint',primaryKey:true,notNull:true,references:'users'},
         role:{type:'text',notNull:true,check:"role IN('admin','member')"},
+        
         joined_at:{type:'timestamptz',notNull:true,default:pgm.func('now()')}
     })
     pgm.createIndex('group_members','user_id')
