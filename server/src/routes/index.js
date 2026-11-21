@@ -1,5 +1,4 @@
 const {Router} =require('express')
-const {create,findByEmail,findById,findByIdWithoutPassword,update}=require('../repositories/users.repo.js')
 const {pool} =require('../config/db')
 
 const router=Router()
@@ -14,6 +13,9 @@ router.get('/health',async (req,res)=>{
 })
 router.use('/auth',require('./auth.routes.js'))
 router.use('/groups',require('./groups.routes.js'))
+router.use('/expenses', require('./expenses.routes.js'))
+
 
 
 module.exports=router
+

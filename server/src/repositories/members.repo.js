@@ -41,6 +41,14 @@ async function list(groupId){
     return rows.map(toMember)
 }
 
+async function filterMembers(groupId,userIds,db=pool){
+    const {rows}=await db.query(
+        `SELECT user_id FROM group_members WHERE group_id=$1 AND user_id = ANY($2::bigint[])`,
+        [groupId,userIds]
+    )
+    return new Set(rows.map((r)=>r.user_id))
+}
+
 async function remove(groupId,userId,db=pool){
     await db.query(
         `DELETE FROM group_members where group_id=$1 AND user_id=$2`,
@@ -60,5 +68,6 @@ module.exports={
     find,
     list,
     remove,
-    countAdmin
+    countAdmin,
+    filterMembers
 }
