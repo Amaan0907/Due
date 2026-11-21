@@ -28,6 +28,7 @@ const toExpense=(r)=>({
     splitType:r.split_type,
     category:r.category,
     expenseDate:r.expense_date,
+    paidBy:{id:r.paid_by,name:r.paid_by_name},
     splits:r.splits.map((s)=>({user:{id:s.userId,name:s.name},value:s.value,shareCents:s.shareCents})),
     createdBy:{id:r.created_by,name:r.created_by_name},
     createdAt:r.created_at,
@@ -36,7 +37,7 @@ const toExpense=(r)=>({
 
 
 async function findById(id,db=pool) {
-    const {rows}=db.query(
+    const {rows}=await db.query(
         `${EXPENSE_SELECT} where e.id=$1 AND e.deleted_at IS NULL`,
         [id]
     )
@@ -54,7 +55,7 @@ async function list({groupId,limit ,cursor,category,paidBy,involving,from ,to ,q
         let text=sql
         for (const value of values){
             params.push(value)
-            text=text.replace('?',`${params.length}`)
+            text=text.replace('?',`$${params.length}`)
         }
         where.push(text)
     }
@@ -64,10 +65,10 @@ async function list({groupId,limit ,cursor,category,paidBy,involving,from ,to ,q
     if(involving){
         params.push(involving)
         const n=params.length
-        where.push(`(e.paid_by=${n} OR EXISTS (SELECT 1 FROM expense_splits s WHERE s.expense_id=e.id AND s.user_id=$${n}))`)
+        where.push(`(e.paid_by=$${n} OR EXISTS (SELECT 1 FROM expense_splits s WHERE s.expense_id=e.id AND s.user_id=$${n}))`)
     }
 
-    if(from) add('e.expense_date>=::date',from)
+    if(from) add('e.expense_date>=?::date',from)
     if(to) add('e.expense_date<=?::date',to)
     if(q)add(`e.description ILIKE ? ESCAPE '\\'`,`%${escapeLike(q)}%`)
     if(cursor) add('(e.expense_date,e.id) < (?::date,?::bigint)',cursor.d,cursor.i)

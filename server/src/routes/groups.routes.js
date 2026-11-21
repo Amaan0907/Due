@@ -4,7 +4,7 @@ const {requireMember,requireAdmin}=require('../middleware/requireMember.js')
 const validators=require('../validators/groups.validators.js')
 const controllers=require('../controllers/groups.controller.js')
 const validate=require('../middleware/validate.js')
-const expenseValidators = require('../validators/expenses.validators.js')
+const expenseValidators = require('../validators/expense.validators.js')
 const expenseControllers = require('../controllers/expenses.controller.js')
 
 const router=Router()

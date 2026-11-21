@@ -1,7 +1,7 @@
 exports.up=(pgm)=>{
     pgm.createTable('expense_splits',{
         expense_id:{type:'bigint',notNull:true,references:'expenses',primaryKey:true,onDelete:'CASCADE'},
-        user_id:{type:'bigint',notNull:true,references:'users',primarykey:true},
+        user_id:{type:'bigint',notNull:true,references:'users',primaryKey:true},
         share_cents:{type:'bigint',notNull:true,check:'share_cents>=0'},
         raw_value:{type:'numeric'}
     })

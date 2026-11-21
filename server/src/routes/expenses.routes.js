@@ -2,7 +2,7 @@ const { Router } = require('express')
 const requireAuth = require('../middleware/auth')
 const { requireExpenseAccess, requireExpenseEditor } = require('../middleware/requireExpense.js')
 const validate = require('../middleware/validate.js')
-const validators = require('../validators/expenses.validators.js')
+const validators = require('../validators/expense.validators.js')
 const controllers = require('../controllers/expenses.controller.js')
 
 const router = Router()

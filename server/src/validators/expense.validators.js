@@ -16,7 +16,7 @@ const splitEntry=z.strictObject({
 
 const shape={
     description:z.string().trim().min(1).max(100),
-    amountCents:z.string().int().min(1).max('1_000_000_000'),
+    amountCents:z.int().min(1).max(1_000_000_000),
     paidBy:id,
     splitType:z.enum(['equal','exact','percent','shares']),
     category:z.enum(CATEGORIES).nullable().optional(),
@@ -43,6 +43,7 @@ const listQuerySchema=z.strictObject({
     cursor:z.string().min(1).optional(),
     category:z.enum(CATEGORIES).optional(),
     paidBy:z.coerce.number().int().positive().optional(),
+    involving:z.coerce.number().int().positive().optional(),
     from:calendarDate.optional(),
     to:calendarDate.optional(),
     q:z.string().trim().min(1).max(100).optional()
