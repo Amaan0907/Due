@@ -14,6 +14,7 @@ router.get('/health',async (req,res)=>{
 router.use('/auth',require('./auth.routes.js'))
 router.use('/groups',require('./groups.routes.js'))
 router.use('/expenses', require('./expenses.routes.js'))
+router.use('/me', require('./me.routes.js'))
 
 
 
